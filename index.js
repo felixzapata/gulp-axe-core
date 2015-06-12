@@ -1,12 +1,12 @@
 'use strict';
 var gutil = require('gulp-util');
 var through = require('through2');
-var someModule = require('some-module');
+var PATHTOAXE = 'node_modules/axe-core/axe.min.js';
 
 module.exports = function (options) {
-	if (!options.foo) {
+	/*if (!options.foo) {
 		throw new gutil.PluginError('gulp-axe-core', '`foo` required');
-	}
+	}*/
 
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
