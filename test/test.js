@@ -15,7 +15,8 @@ it('should pass the a11y validation', function (cb) {
 
 	stream.write(new gutil.File({
 		base: __dirname,
-		path: __dirname + '/test/fixtures/working.html'
+		path: __dirname + '/test/working.html',
+		contents: new Buffer('<div id="working"><label for="has-label">Label for this text field.</label><input type="text" id="has-label"></div>')
 	}));
 
 	stream.end();
@@ -33,7 +34,8 @@ it('should not pass the a11y validation', function (cb) {
 
 	stream.write(new gutil.File({
 		base: __dirname,
-		path: __dirname + '/test/fixtures/broken.html'
+		path: __dirname + '/test/broken.html',
+		contents: new Buffer('<div id="broken"><p>Not a label</p><input type="text" id="no-label"><p>Not an alt</p><img src="foobar.gif"></div>')
 	}));
 
 	stream.end();
