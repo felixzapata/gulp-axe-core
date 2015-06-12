@@ -24,6 +24,7 @@
   "dependencies": {
     "axe-core": "^1.0.1",
     "axe-rules": "^1.0.2",
+    "colors": "~1.0.2",
     "gulp-util": "^3.0.4",
     "through2": "^0.6.5"
   },
