@@ -23,7 +23,7 @@ it('should pass the a11y validation', function (cb) {
 });
 
 
-it('should not pass the a11y validation', function (cb) {
+xit('should not pass the a11y validation', function (cb) {
 	var stream = axeCore();
 
 	stream.on('data', function (results) {
