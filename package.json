@@ -19,6 +19,8 @@
     "index.js"
   ],
   "keywords": [
+    "gulp",
+    "a11y",
     "gulpplugin"
   ],
   "dependencies": {
