@@ -21,25 +21,9 @@ var axeCore = require('gulp-axe-core');
 
 gulp.task('default', function () {
 	return gulp.src('src/file.ext')
-		.pipe(axeCore())
-		.pipe(gulp.dest('dist'));
+		.pipe(axeCore());
 });
 ```
-
-
-## API
-
-### axeCore(options)
-
-#### options
-
-##### foo
-
-Type: `boolean`  
-Default: `false`
-
-Lorem ipsum.
-
 
 ## License
 
