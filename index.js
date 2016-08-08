@@ -1,6 +1,8 @@
 'use strict';
 var gutil = require('gulp-util');
 var through = require('through2');
+var path = require('path');
+var fileUrl = require('file-url');
 var AxeBuilder = require('axe-webdriverjs');
 var WebDriver = require('selenium-webdriver');
 var PLUGIN_NAME = 'gulp-axe-core';
@@ -24,7 +26,7 @@ module.exports = function (options) {
 		try {
 
 			driver
-				.get(file.path)
+				.get(fileUrl(file.path))
 				.then(function () {
 					AxeBuilder(driver)
 						.analyze(function (results) {
@@ -35,7 +37,7 @@ module.exports = function (options) {
 		} catch (err) {
 			this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
 		}
-
+		driver.quit()
 		cb();
 	});
 };
