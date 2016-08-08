@@ -33,6 +33,7 @@
     "axe-webdriverjs": "^0.3.0",
     "chromedriver": "^2.22.2",
     "file-url": "^1.1.0",
+    "promise": "^7.1.1",
     "selenium-webdriver": "^2.53.3",
     "through2": "^0.6.5"
   },
