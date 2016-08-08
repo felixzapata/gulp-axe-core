@@ -1,42 +1,36 @@
 'use strict';
+
+var pluginPath = '../index';
+var axecore = require(pluginPath);
+var gulp = require('gulp');
+var fs = require('fs-extra');
+var path = require('path');
+var should = require('should');
 var assert = require('assert');
-var gutil = require('gulp-util');
-var axeCore = require('../');
+var sassert = require('stream-assert');
+require('mocha');
 
-it('should pass the a11y validation', function (cb) {
-	var stream = axeCore();
+var fixtures = function(glob) { return path.join(__dirname, './fixtures', glob); }
 
-	stream.on('data', function (results) {
-		assert.equal(0, results.violation.length);
+describe('gulp-axe-core', function() {
 
+	it('should pass the a11y validation', function (done) {
+			gulp.src(fixtures('working.html'))
+				.pipe(axecore())
+				.pipe(sassert.first(function(d) {
+					
+				}))
+		.pipe(sassert.end(done));
 	});
 
-	stream.on('end', cb);
 
-	stream.write(new gutil.File({
-		base: __dirname,
-		path: __dirname + '/test/working.html',
-		contents: new Buffer('<div id="working"><label for="has-label">Label for this text field.</label><input type="text" id="has-label"></div>')
-	}));
-
-	stream.end();
-});
-
-
-xit('should not pass the a11y validation', function (cb) {
-	var stream = axeCore();
-
-	stream.on('data', function (results) {
-		assert.not.equal(0, results.violation.length);
+	xit('should not pass the a11y validation', function (done) {
+		gulp.src(fixtures('broken.html'))
+				.pipe(axecore())
+				.pipe(sassert.first(function(d) {
+					
+				}))
+		.pipe(sassert.end(done));
 	});
 
-	stream.on('end', cb);
-
-	stream.write(new gutil.File({
-		base: __dirname,
-		path: __dirname + '/test/broken.html',
-		contents: new Buffer('<div id="broken"><p>Not a label</p><input type="text" id="no-label"><p>Not an alt</p><img src="foobar.gif"></div>')
-	}));
-
-	stream.end();
 });
