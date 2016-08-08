@@ -31,6 +31,8 @@
     "axe-core": "^2.0.5",
     "axe-rules": "^1.0.2",
     "axe-webdriverjs": "^0.3.0",
+    "chromedriver": "^2.22.2",
+    "file-url": "^1.1.0",
     "selenium-webdriver": "^2.53.3",
     "through2": "^0.6.5"
   },
