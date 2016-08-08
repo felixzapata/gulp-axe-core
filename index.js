@@ -1,7 +1,6 @@
 'use strict';
 var gutil = require('gulp-util');
 var through = require('through2');
-var path = require('path');
 var fileUrl = require('file-url');
 var AxeBuilder = require('axe-webdriverjs');
 var WebDriver = require('selenium-webdriver');
@@ -16,6 +15,16 @@ var promise;
 var url = '';
 
 module.exports = function (options) {
+
+	var createResults = function(cb) {
+		Promise.all(promises).then(function(results) {
+			fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
+			driver.quit().then(function() {
+				cb(result);
+			});
+		});
+		cb();
+	};
 
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
@@ -41,6 +50,7 @@ module.exports = function (options) {
 									results.url = url;
 									results.timestamp = new Date().getTime();
 									results.time = results.timestamp - startTimestamp;
+									console.log(results);
 									resolve(results);
 								});
 						});
@@ -48,24 +58,14 @@ module.exports = function (options) {
 
 			promises.push(promise);
 
-			Promise.all(promises).then(function(results) {
-    		fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
-				driver.quit().then(function() {
-					cb(result);
-				});
-			});
-
-			/*driver
-				.get(fileUrl(file.path))
-				.then(function () {
-					AxeBuilder(driver)
-						.analyze(function (results) {
-							console.log(results);
-						});
-				});*/
+			createResults(cb);
 
 		} catch (err) {
 			this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
 		}
 	});
+
+	
+
+
 };
