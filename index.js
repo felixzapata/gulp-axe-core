@@ -5,11 +5,15 @@ var path = require('path');
 var fileUrl = require('file-url');
 var AxeBuilder = require('axe-webdriverjs');
 var WebDriver = require('selenium-webdriver');
+var Promise = require('promise');
 var PLUGIN_NAME = 'gulp-axe-core';
 
 var driver = new WebDriver.Builder()
   .forBrowser('firefox')
   .build();
+var promises = [];
+var promise;
+var url = '';
 
 module.exports = function (options) {
 
@@ -25,19 +29,43 @@ module.exports = function (options) {
 
 		try {
 
-			driver
+			url = fileUrl(file.path);
+
+			promise = new Promise(function(resolve, reject) {
+					driver
+						.get(url)
+						.then(function() {
+							var startTimestamp = new Date().getTime();
+							new AxeBuilder(driver)
+								.analyze(function(results) {
+									results.url = url;
+									results.timestamp = new Date().getTime();
+									results.time = results.timestamp - startTimestamp;
+									resolve(results);
+								});
+						});
+			});
+
+			promises.push(promise);
+
+			Promise.all(promises).then(function(results) {
+    		fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
+				driver.quit().then(function() {
+					cb(result);
+				});
+			});
+
+			/*driver
 				.get(fileUrl(file.path))
 				.then(function () {
 					AxeBuilder(driver)
 						.analyze(function (results) {
 							console.log(results);
 						});
-				});
+				});*/
 
 		} catch (err) {
 			this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
 		}
-		driver.quit()
-		cb();
 	});
 };
