@@ -13,26 +13,46 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "gulp test"
   },
   "files": [
     "index.js"
   ],
   "keywords": [
     "gulp",
+    "gulpplugin",
     "a11y",
-    "gulpplugin"
+    "unit",
+    "testing",
+    "aXe",
+    "accessibility"
   ],
   "dependencies": {
     "axe-core": "^2.0.5",
     "axe-rules": "^1.0.2",
-    "cheerio": "^0.20.0",
-    "colors": "~1.0.2",
-    "gulp-util": "^3.0.4",
-    "through2": "^0.6.5",
-    "xmldom": "^0.1.22"
+    "axe-webdriverjs": "^0.3.0",
+    "selenium-webdriver": "^2.53.3",
+    "through2": "^0.6.5"
   },
   "devDependencies": {
-    "mocha": "*"
+    "conventional-changelog": "^1.1.0",
+    "fs-extra": "^0.26.7",
+    "gulp": "^3.9.1",
+    "gulp-bump": "^2.1.0",
+    "gulp-git": "^1.7.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-mocha": "^2.2.0",
+    "gulp-util": "^3.0.7",
+    "istanbul": "^0.4.2",
+    "jshint": "^2.9.1",
+    "jshint-stylish": "^2.1.0",
+    "mocha": "^2.4.5",
+    "mocha-lcov-reporter": "^1.2.0",
+    "require-dir": "^0.3.0",
+    "run-sequence": "^1.1.5",
+    "should": "^8.3.0",
+    "stream-array": "^1.1.1",
+    "stream-assert": "^2.0.3"
   }
 }
