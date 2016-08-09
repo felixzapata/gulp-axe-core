@@ -66,12 +66,23 @@ module.exports = function (customOptions) {
 						});
 			});
 
-			promises.push(promise);
+			//promises.push(promise);
+
+			promise.then(function(results){
+				if(options.createReportFile) {
+					fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
+				}
+				result = reporter(results, options.threshold);
+			}).catch(cb);
+
+			driver.quit().then(function() {
+				cb(result);
+			});
 
 		} catch (err) {
 			this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
 		}
-		cb();
+
 	};
-	return through.obj(bufferContents, createResults);
+	return through.obj(bufferContents);
 };
