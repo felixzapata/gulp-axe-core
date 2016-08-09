@@ -8,9 +8,6 @@ var Promise = require('promise');
 var reporter = require('./lib/reporter');
 var PLUGIN_NAME = 'gulp-axe-core';
 
-var driver = new WebDriver.Builder()
-  .forBrowser('firefox')
-  .build();
 var promises = [];
 var promise;
 var url = '';
@@ -39,6 +36,10 @@ module.exports = function (customOptions) {
 	};
 
 	var options = customOptions ? Object.assign(defaultOptions, customOptions) : defaultOptions;
+
+	var driver = new WebDriver.Builder()
+  .forBrowser(options.browser)
+  .build();
 
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
