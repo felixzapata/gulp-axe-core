@@ -1,9 +1,8 @@
 'use strict';
 
 var pluginPath = '../index';
-var axecore = require(pluginPath);
+var axeCore = require(pluginPath);
 var gulp = require('gulp');
-var fs = require('fs-extra');
 var path = require('path');
 var should = require('should');
 var assert = require('assert');
@@ -16,21 +15,28 @@ describe('gulp-axe-core', function() {
 
 	it('should pass the a11y validation', function (done) {
 			gulp.src(fixtures('working.html'))
-				.pipe(axecore())
-				.pipe(sassert.first(function(d) {
-					console.log(d);
-				}))
+				.pipe(axeCore())
 				.pipe(sassert.end(done));
 	});
 
 
 	it('should not pass the a11y validation', function (done) {
-		gulp.src(fixtures('broken.html'))
-				.pipe(axecore())
-				.pipe(sassert.first(function(d) {
-					
-				}))
+			gulp.src(fixtures('broken.html'))
+				.pipe(axeCore())
 				.pipe(sassert.end(done));
+	});
+
+	it('should create JSON file with the results', function (done) {
+		var options = {
+			saveOutputIn: 'allHtml.json'
+		};
+		gulp.src(fixtures('broken.html'))
+				.pipe(axeCore(options))
+				.pipe(sassert.end(function() {
+					var expected = fs.readFileSync(path.join(__dirname,'allHtml.json')).toString();
+					expected.should.not.be('');
+					done();
+				}));
 	});
 
 });
