@@ -5,6 +5,7 @@ var fileUrl = require('file-url');
 var AxeBuilder = require('axe-webdriverjs');
 var WebDriver = require('selenium-webdriver');
 var Promise = require('promise');
+var reporter = require('./lib/reporter');
 var PLUGIN_NAME = 'gulp-axe-core';
 
 var driver = new WebDriver.Builder()
@@ -14,17 +15,30 @@ var promises = [];
 var promise;
 var url = '';
 
-module.exports = function (options) {
+module.exports = function (customOptions) {
 
 	var createResults = function(cb) {
+		var result;
 		Promise.all(promises).then(function(results) {
-			fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
+			if(options.createReportFile) {
+				fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
+			}
+			result = reporter(results, options.threshold);
 			driver.quit().then(function() {
 				cb(result);
 			});
 		});
 		cb();
 	};
+
+	var defaultOptions = {
+		browser: 'firefox',
+		server: null,
+		createReportFile: false,
+		threshold: 0
+	};
+
+	var options = customOptions ? Object.assign(defaultOptions, customOptions) : defaultOptions;
 
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
@@ -50,7 +64,6 @@ module.exports = function (options) {
 									results.url = url;
 									results.timestamp = new Date().getTime();
 									results.time = results.timestamp - startTimestamp;
-									console.log(results);
 									resolve(results);
 								});
 						});
