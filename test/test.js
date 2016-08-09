@@ -13,6 +13,8 @@ var fixtures = function(glob) { return path.join(__dirname, './fixtures', glob);
 
 describe('gulp-axe-core', function() {
 
+	this.timeout(5000);
+
 	it('should pass the a11y validation', function (done) {
 			gulp.src(fixtures('working.html'))
 				.pipe(axeCore())
