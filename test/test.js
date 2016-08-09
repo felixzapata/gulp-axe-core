@@ -4,6 +4,7 @@ var pluginPath = '../index';
 var axeCore = require(pluginPath);
 var gulp = require('gulp');
 var path = require('path');
+var fs = require('fs-extra');
 var should = require('should');
 var assert = require('assert');
 var sassert = require('stream-assert');
