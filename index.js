@@ -8,7 +8,6 @@ var Promise = require('promise');
 var reporter = require('./lib/reporter');
 var PLUGIN_NAME = 'gulp-axe-core';
 
-var promises = [];
 var promise;
 var url = '';
 var result;
@@ -38,6 +37,7 @@ module.exports = function (customOptions) {
 	var driver = new WebDriver.Builder().forBrowser(options.browser).build();
 
 	var bufferContents = function (file, enc, cb) {
+		
 		if (file.isNull()) {
 			cb(null, file);
 			return;
@@ -52,32 +52,27 @@ module.exports = function (customOptions) {
 			url = fileUrl(file.path);
 
 			promise = new Promise(function(resolve, reject) {
-					driver
-						.get(url)
-						.then(function() {
-							var startTimestamp = new Date().getTime();
-							new AxeBuilder(driver)
-								.analyze(function(results) {
-									results.url = url;
-									results.timestamp = new Date().getTime();
-									results.time = results.timestamp - startTimestamp;
-									resolve(results);
-								});
-						});
+					driver.get(url).then(function() {
+						var startTimestamp = new Date().getTime();
+						new AxeBuilder(driver)
+							.analyze(function(results) {
+								results.url = file.path;
+								results.timestamp = new Date().getTime();
+								results.time = results.timestamp - startTimestamp;
+								resolve(results);
+							});
+					});
 			});
-
-			//promises.push(promise);
 
 			promise.then(function(results){
 				if(options.createReportFile) {
 					fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
 				}
 				result = reporter(results, options.threshold);
+				driver.quit().then(function() {
+					cb(result);
+				});
 			}).catch(cb);
-
-			driver.quit().then(function() {
-				cb(result);
-			});
 
 		} catch (err) {
 			this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
