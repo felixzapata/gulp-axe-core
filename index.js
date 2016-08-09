@@ -11,11 +11,11 @@ var PLUGIN_NAME = 'gulp-axe-core';
 var promises = [];
 var promise;
 var url = '';
+var result;
 
 module.exports = function (customOptions) {
 
 	var createResults = function(cb) {
-		var result;
 		Promise.all(promises).then(function(results) {
 			if(options.createReportFile) {
 				fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
@@ -25,7 +25,6 @@ module.exports = function (customOptions) {
 				cb(result);
 			});
 		});
-		cb();
 	};
 
 	var defaultOptions = {
@@ -36,12 +35,9 @@ module.exports = function (customOptions) {
 	};
 
 	var options = customOptions ? Object.assign(defaultOptions, customOptions) : defaultOptions;
+	var driver = new WebDriver.Builder().forBrowser(options.browser).build();
 
-	var driver = new WebDriver.Builder()
-  .forBrowser(options.browser)
-  .build();
-
-	return through.obj(function (file, enc, cb) {
+	var bufferContents = function (file, enc, cb) {
 		if (file.isNull()) {
 			cb(null, file);
 			return;
@@ -72,14 +68,10 @@ module.exports = function (customOptions) {
 
 			promises.push(promise);
 
-			createResults(cb);
-
 		} catch (err) {
 			this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
 		}
-	});
-
-	
-
-
+		cb();
+	};
+	return through.obj(bufferContents, createResults);
 };
