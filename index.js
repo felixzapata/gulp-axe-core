@@ -2,7 +2,8 @@
 var gutil = require('gulp-util');
 var through = require('through2');
 var fileUrl = require('file-url');
-var fs = require('fs-extra');
+var path = require('path');
+var fs = require('fs-path');
 var AxeBuilder = require('axe-webdriverjs');
 var WebDriver = require('selenium-webdriver');
 var Promise = require('promise');
@@ -18,8 +19,10 @@ module.exports = function (customOptions) {
 
 	var createResults = function(cb) {
 		Promise.all(promises).then(function(results) {
+			var dest = '';
 			if(options.saveOutputIn !== '') {
-				fs.writeFileSync(options.saveOutputIn, JSON.stringify(results, null, '  '), { encoding: 'utf8' });
+				dest = path.join(options.folderOutputReport, options.saveOutputIn);
+				fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
 			}
 			result = reporter(results, options.threshold);
 			driver.quit().then(function() {
@@ -31,6 +34,7 @@ module.exports = function (customOptions) {
 	var defaultOptions = {
 		browser: 'firefox',
 		server: null,
+		folderOutputReport: 'aXeReports',
 		saveOutputIn: '',
 		threshold: 0
 	};
