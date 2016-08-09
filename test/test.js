@@ -12,18 +12,31 @@ require('mocha');
 
 var fixtures = function(glob) { return path.join(__dirname, './fixtures', glob); }
 
+function fileExists(filePath) {
+  try {
+    return fs.statSync(filePath).isFile();
+  } catch (err) {
+    return false;
+  }
+}
+
 describe('gulp-axe-core', function() {
 
 	this.timeout(5000);
 
-	it('should pass the a11y validation', function (done) {
+	beforeEach(function(done) {
+    var folder = path.join(__dirname, 'temp');
+    fs.remove(folder, done);
+	});
+
+	xit('should pass the a11y validation', function (done) {
 			gulp.src(fixtures('working.html'))
 				.pipe(axeCore())
 				.pipe(sassert.end(done));
 	});
 
 
-	it('should not pass the a11y validation', function (done) {
+	xit('should not pass the a11y validation', function (done) {
 			gulp.src(fixtures('broken.html'))
 				.pipe(axeCore())
 				.pipe(sassert.end(done));
@@ -31,13 +44,15 @@ describe('gulp-axe-core', function() {
 
 	it('should create JSON file with the results', function (done) {
 		var options = {
-			saveOutputIn: 'allHtml.json'
+			saveOutputIn: 'allHtml.json',
+			folderOutputReport: path.join(__dirname, 'temp')
 		};
+	
 		gulp.src(fixtures('broken.html'))
 				.pipe(axeCore(options))
 				.pipe(sassert.end(function() {
-					var expected = fs.readFileSync(path.join(__dirname,'allHtml.json')).toString();
-					expected.should.not.be('');
+					var expected = path.join(__dirname, 'temp', 'allHtml.json');
+					fileExists(expected).should.equal(true);
 					done();
 				}));
 	});
