@@ -29,14 +29,14 @@ describe('gulp-axe-core', function() {
     fs.remove(folder, done);
 	});
 
-	xit('should pass the a11y validation', function (done) {
+	it('should pass the a11y validation', function (done) {
 			gulp.src(fixtures('working.html'))
 				.pipe(axeCore())
 				.pipe(sassert.end(done));
 	});
 
 
-	xit('should not pass the a11y validation', function (done) {
+	it('should not pass the a11y validation', function (done) {
 			gulp.src(fixtures('broken.html'))
 				.pipe(axeCore())
 				.pipe(sassert.end(done));
