@@ -12,7 +12,6 @@ var PLUGIN_NAME = 'gulp-axe-core';
 
 var promise;
 var promises = [];
-var url = '';
 var result;
 
 module.exports = function (customOptions) {
@@ -55,10 +54,8 @@ module.exports = function (customOptions) {
 
 		try {
 
-			url = fileUrl(file.path);
-
 			promise = new Promise(function(resolve, reject) {
-					driver.get(url).then(function() {
+					driver.get(fileUrl(file.path)).then(function() {
 						var startTimestamp = new Date().getTime();
 						new AxeBuilder(driver)
 							.analyze(function(results) {
