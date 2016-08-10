@@ -44,7 +44,7 @@ describe('gulp-axe-core', function() {
 			gulp.src(fixtures('working.html'))
 				.pipe(axeCore())
 				.pipe(sassert.end(function() {
-					assert.equal(output.match(/Found 1 accessibility violations/gi).length, 1);
+					assert.equal(output.match(/Found no accessibility violations./gi).length, 1);
 					assert.equal(output.match(/(File to test|test\/fixtures\/working.html)/gi).length, 2);
 					done();
 				}));
