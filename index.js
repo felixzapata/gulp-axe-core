@@ -11,7 +11,7 @@ var reporter = require('./lib/reporter');
 var PLUGIN_NAME = 'gulp-axe-core';
 
 var promise;
-var promises = [];
+var results = [];
 
 module.exports = function (customOptions) {
 
@@ -27,21 +27,18 @@ module.exports = function (customOptions) {
 	var driver = new WebDriver.Builder().forBrowser(options.browser).build();
 
 	var createResults = function(cb) {
-		Promise.all(promises).then(function(results) {
-			var dest = '';
-			if(options.saveOutputIn !== '') {
-				dest = path.join(options.folderOutputReport, options.saveOutputIn);
-				fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
-			}
-			reporter(results, options.threshold);
-			driver.quit();
-			cb();
-		});
+		
+		var dest = '';
+		if(options.saveOutputIn !== '') {
+			dest = path.join(options.folderOutputReport, options.saveOutputIn);
+			fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
+		}
+		driver.quit();
+		cb();
+		
 	};
 
 	var bufferContents = function (file, enc, cb) {
-
-		promises = [];
 		
 		if (file.isNull()) {
 			cb(null, file);
@@ -58,18 +55,21 @@ module.exports = function (customOptions) {
 					driver.get(fileUrl(file.path)).then(function() {
 						var startTimestamp = new Date().getTime();
 						new AxeBuilder(driver)
-							.analyze(function(results) {
-								results.url = file.path;
-								results.timestamp = new Date().getTime();
-								results.time = results.timestamp - startTimestamp;
-								resolve(results);
+							.analyze(function(result) {
+								result.url = file.path;
+								result.timestamp = new Date().getTime();
+								result.time = result.timestamp - startTimestamp;
+								resolve(result);
 							});
 					});
 			});
 
-			promises.push(promise);
+			promise.then(function(result) {
+				results.push(result);
+				reporter(result, options.threshold);
+				cb();
+			});
 
-			cb();
 
 		} catch (err) {
 			this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
