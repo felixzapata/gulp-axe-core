@@ -1,0 +1,7 @@
+.travis.yml
+.gitignore
+.jshintignore
+.jshintrc
+tasks
+test
+gulpfile.js
