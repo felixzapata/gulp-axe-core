@@ -1,4 +1,4 @@
-# gulp-axe-core [![Build Status](https://travis-ci.org/felixzapata/gulp-axe-core.svg?branch=master)](https://travis-ci.org/felixzapata/gulp-axe-core)
+# gulp-axe-core
 
 > Gulp plugin to use [axe-core](https://github.com/dequelabs/axe-core)
 
