@@ -12,23 +12,8 @@ var PLUGIN_NAME = 'gulp-axe-core';
 
 var promise;
 var promises = [];
-var result;
 
 module.exports = function (customOptions) {
-
-	var createResults = function(cb) {
-		Promise.all(promises).then(function(results) {
-			var dest = '';
-			if(options.saveOutputIn !== '') {
-				dest = path.join(options.folderOutputReport, options.saveOutputIn);
-				fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
-			}
-			result = reporter(results, options.threshold);
-			driver.quit().then(function() {
-				cb(result);
-			});
-		});
-	};
 
 	var defaultOptions = {
 		browser: 'firefox',
@@ -40,6 +25,19 @@ module.exports = function (customOptions) {
 
 	var options = customOptions ? Object.assign(defaultOptions, customOptions) : defaultOptions;
 	var driver = new WebDriver.Builder().forBrowser(options.browser).build();
+
+	var createResults = function(cb) {
+		Promise.all(promises).then(function(results) {
+			var dest = '';
+			if(options.saveOutputIn !== '') {
+				dest = path.join(options.folderOutputReport, options.saveOutputIn);
+				fs.writeFileSync(dest, JSON.stringify(results, null, '  '));
+			}
+			reporter(results, options.threshold);
+			driver.quit();
+			cb();
+		});
+	};
 
 	var bufferContents = function (file, enc, cb) {
 		
@@ -69,12 +67,11 @@ module.exports = function (customOptions) {
 
 			promises.push(promise);
 
+			cb();
+
 		} catch (err) {
 			this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
 		}
-
-		cb();
-
 	};
 	return through.obj(bufferContents, createResults);
 };

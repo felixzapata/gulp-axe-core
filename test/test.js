@@ -22,10 +22,9 @@ function fileExists(filePath) {
 
 describe('gulp-axe-core', function() {
 
-	this.timeout(5000);
-	
 	var output;
 	var write = process.stdout.write;
+	this.timeout(30000);
 
 	beforeEach(function(done) {
     var folder = path.join(__dirname, 'temp');
@@ -66,11 +65,10 @@ describe('gulp-axe-core', function() {
 			saveOutputIn: 'allHtml.json',
 			folderOutputReport: path.join(__dirname, 'temp')
 		};
-	
+		var expected = path.join(__dirname, 'temp', 'allHtml.json');
 		gulp.src(fixtures('broken.html'))
 				.pipe(axeCore(options))
 				.pipe(sassert.end(function() {
-					var expected = path.join(__dirname, 'temp', 'allHtml.json');
 					assert(fileExists(expected), true);
 					done();
 				}));
