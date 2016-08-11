@@ -40,6 +40,8 @@ module.exports = function (customOptions) {
 	};
 
 	var bufferContents = function (file, enc, cb) {
+
+		promises = [];
 		
 		if (file.isNull()) {
 			cb(null, file);
