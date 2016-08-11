@@ -17,7 +17,6 @@ module.exports = function (customOptions) {
 
 	var defaultOptions = {
 		browser: 'firefox',
-		server: null,
 		folderOutputReport: 'aXeReports',
 		saveOutputIn: '',
 		threshold: 0
