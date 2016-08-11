@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "conventional-changelog": "^1.1.0",
+    "gulp": "^3.9.1",
     "gulp-bump": "^2.1.0",
     "gulp-git": "^1.7.0",
     "gulp-jshint": "^2.0.0",
