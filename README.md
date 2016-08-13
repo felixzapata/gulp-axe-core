@@ -1,5 +1,7 @@
 # gulp-axe-core
 
+[![Package Quality](http://npm.packagequality.com/badge/gulp-axe-core.png)](http://npm.packagequality.com/badge/gulp-axe-core.png)
+
 > Gulp plugin to use [axe-core](https://github.com/dequelabs/axe-core)
 
 Inspired by [grunt-axe-webdriver](https://github.com/dequelabs/grunt-axe-webdriver).
