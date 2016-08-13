@@ -1,3 +1,13 @@
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/felixzapata/gulp-axe-core/compare/0.1.0...v0.1.1) (2016-08-13)
+
+
+### Bug Fixes
+
+* **chromedriver:** add chromedriver via npm to avoid path problems ([2881809](https://github.com/felixzapata/gulp-axe-core/commit/2881809))
+
+
+
 <a name="0.1.0"></a>
 # 0.1.0 (2016-08-11)
 
