@@ -28,6 +28,21 @@ gulp.task('axe', function() {
 
 ```
 
+```js
+var gulp = require('gulp');
+var axeCore = require('gulp-axe-core');
+
+gulp.task('axe', function() {
+  var options = {
+			saveOutputIn: 'allHtml.json',
+			browser: 'chrome'
+	};
+	return gulp.src('src/file2.html')
+		.pipe(axeCore(options));
+});
+
+```
+
 ### Options
 Type: `Object`
 Default value:
