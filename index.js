@@ -9,6 +9,7 @@ var WebDriver = require('selenium-webdriver');
 var Promise = require('promise');
 var reporter = require('./lib/reporter');
 var PLUGIN_NAME = 'gulp-axe-core';
+require('chromedriver');
 
 var promise;
 var results = [];
