@@ -44,7 +44,9 @@ module.exports = function (customOptions) {
 			cb(null, file);
 			return;
 		}
+
 		if (file.isStream()) {
+			driver.quit();
 			cb(new gutil.PluginError(PLUGIN_NAME, 'Streaming not supported'));
 			return;
 		}
@@ -70,10 +72,10 @@ module.exports = function (customOptions) {
 				cb();
 			});
 
-
 		} catch (err) {
 			this.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
 		}
+
 	};
 	return through.obj(bufferContents, createResults);
 };

@@ -74,4 +74,13 @@ describe('gulp-axe-core', function() {
 				}));
 	});
 
+	it('should emit error on streamed file', function (done) {
+      gulp.src(fixtures('working.html'), { buffer: false })
+        .pipe(axeCore())
+        .on('error', function (err) {
+					assert.equal(err.message, 'Streaming not supported');
+          done();
+        });
+	});
+
 });
