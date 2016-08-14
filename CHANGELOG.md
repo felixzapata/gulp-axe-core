@@ -1,3 +1,13 @@
+<a name="0.1.2"></a>
+## [0.1.2](https://github.com/felixzapata/gulp-axe-core/compare/0.1.1...v0.1.2) (2016-08-14)
+
+
+### Bug Fixes
+
+* **stream:** close the driver when try to use stream mode ([ee1a6e5](https://github.com/felixzapata/gulp-axe-core/commit/ee1a6e5))
+
+
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://github.com/felixzapata/gulp-axe-core/compare/0.1.0...v0.1.1) (2016-08-13)
 
