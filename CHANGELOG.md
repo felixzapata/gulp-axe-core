@@ -1,3 +1,13 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/felixzapata/gulp-axe-core/compare/0.1.2...v0.1.3) (2016-08-25)
+
+
+### Bug Fixes
+
+* **package.json:** add lib folder ([92ef9db](https://github.com/felixzapata/gulp-axe-core/commit/92ef9db))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/felixzapata/gulp-axe-core/compare/0.1.1...v0.1.2) (2016-08-14)
 
