@@ -11,6 +11,11 @@ var reporter = require('./lib/reporter');
 var PLUGIN_NAME = 'gulp-axe-core';
 require('chromedriver');
 
+//setup custom phantomJS capability
+const phantomjs_exe = require('phantomjs-prebuilt').path;
+var customPhantom = WebDriver.Capabilities.phantomjs();
+customPhantom.set("phantomjs.binary.path", phantomjs_exe);
+
 var promise;
 var results = [];
 
@@ -24,10 +29,11 @@ module.exports = function (customOptions) {
 	};
 
 	var options = customOptions ? Object.assign(defaultOptions, customOptions) : defaultOptions;
-	var driver = new WebDriver.Builder().forBrowser(options.browser).build();
+	var driver = options.browser === 'phantomjs' ? new WebDriver.Builder().withCapabilities(customPhantom).build() :
+    new WebDriver.Builder().forBrowser(options.browser).build();
 
 	var createResults = function(cb) {
-		
+
 		var dest = '';
 		if(options.saveOutputIn !== '') {
 			dest = path.join(options.folderOutputReport, options.saveOutputIn);
@@ -35,11 +41,11 @@ module.exports = function (customOptions) {
 		}
 		driver.quit();
 		cb();
-		
+
 	};
 
 	var bufferContents = function (file, enc, cb) {
-		
+
 		if (file.isNull()) {
 			cb(null, file);
 			return;
