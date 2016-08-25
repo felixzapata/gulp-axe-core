@@ -16,6 +16,7 @@
     "test": "gulp test"
   },
   "files": [
+    "lib/reporter.js",
     "index.js"
   ],
   "keywords": [
