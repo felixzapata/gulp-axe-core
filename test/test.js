@@ -5,7 +5,6 @@ var axeCore = require(pluginPath);
 var gulp = require('gulp');
 var path = require('path');
 var fs = require('fs-extra');
-var should = require('should');
 var assert = require('assert');
 var sassert = require('stream-assert');
 require('mocha');
@@ -39,39 +38,86 @@ describe('gulp-axe-core', function() {
     process.stdout.write = write;
   });
 
-	it('should pass the a11y validation', function (done) {
-			gulp.src(fixtures('working.html'))
-				.pipe(axeCore())
-				.pipe(sassert.end(function() {
-					assert.notEqual(output.match(/Found no accessibility violations./gi), null);
-					assert.notEqual(output.match(/(File to test|test\/fixtures\/working.html)/gi), null);
-					done();
-				}));
-	});
+	describe('using Chrome', function() {
+
+		it('should pass the a11y validation', function (done) {
+				gulp.src(fixtures('working.html'))
+					.pipe(axeCore())
+					.pipe(sassert.end(function() {
+						assert.notEqual(output.match(/Found no accessibility violations./gi), null);
+						assert.notEqual(output.match(/(File to test|test\/fixtures\/working.html)/gi), null);
+						done();
+					}));
+		});
 
 
-	it('should not pass the a11y validation', function (done) {
+		it('should not pass the a11y validation', function (done) {
+				gulp.src(fixtures('broken.html'))
+					.pipe(axeCore())
+					.pipe(sassert.end(function() {
+						assert.notEqual(output.match(/Found 3 accessibility violations/gi), null);
+						assert.notEqual(output.match(/(File to test|test\/fixtures\/broken.html)/gi), null);
+						done();
+					}));
+		});
+
+		it('should create JSON file with the results', function (done) {
+			var options = {
+				saveOutputIn: 'allHtml.json',
+				folderOutputReport: path.join(__dirname, 'temp')
+			};
+			var expected = path.join(__dirname, 'temp', 'allHtml.json');
 			gulp.src(fixtures('broken.html'))
-				.pipe(axeCore())
-				.pipe(sassert.end(function() {
-					assert.notEqual(output.match(/Found 3 accessibility violations/gi), null);
-					assert.notEqual(output.match(/(File to test|test\/fixtures\/broken.html)/gi), null);
-					done();
-				}));
-	});
+					.pipe(axeCore(options))
+					.pipe(sassert.end(function() {
+						assert(fileExists(expected), true);
+						done();
+					}));
+		});
+	})
 
-	it('should create JSON file with the results', function (done) {
-		var options = {
-			saveOutputIn: 'allHtml.json',
-			folderOutputReport: path.join(__dirname, 'temp')
-		};
-		var expected = path.join(__dirname, 'temp', 'allHtml.json');
-		gulp.src(fixtures('broken.html'))
-				.pipe(axeCore(options))
-				.pipe(sassert.end(function() {
-					assert(fileExists(expected), true);
-					done();
-				}));
+	describe('using PhantomJS', function() {
+		it('should pass the a11y validation', function (done) {
+				var options = {
+					browser: 'phantomjs'
+				};
+				gulp.src(fixtures('working.html'))
+					.pipe(axeCore(options))
+					.pipe(sassert.end(function() {
+						assert.notEqual(output.match(/Found no accessibility violations./gi), null);
+						assert.notEqual(output.match(/(File to test|test\/fixtures\/working.html)/gi), null);
+						done();
+					}));
+		});
+
+
+		it('should not pass the a11y validation', function (done) {
+				var options = {
+					browser: 'phantomjs'
+				};
+				gulp.src(fixtures('broken.html'))
+					.pipe(axeCore(options))
+					.pipe(sassert.end(function() {
+						assert.notEqual(output.match(/Found 3 accessibility violations/gi), null);
+						assert.notEqual(output.match(/(File to test|test\/fixtures\/broken.html)/gi), null);
+						done();
+					}));
+		});
+
+		it('should create JSON file with the results', function (done) {
+			var options = {
+				saveOutputIn: 'allHtml.json',
+				folderOutputReport: path.join(__dirname, 'temp'),
+				browser: 'phantomjs'
+			};
+			var expected = path.join(__dirname, 'temp', 'allHtml.json');
+			gulp.src(fixtures('broken.html'))
+					.pipe(axeCore(options))
+					.pipe(sassert.end(function() {
+						assert(fileExists(expected), true);
+						done();
+					}));
+		});
 	});
 
 	it('should emit error on streamed file', function (done) {
