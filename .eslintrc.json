@@ -16,6 +16,7 @@
     "process" : false,
     "beforeEach" : false,
     "afterEach" : false,
+    "module" : false,
     "it" : false
   }
 }
