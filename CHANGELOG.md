@@ -1,3 +1,15 @@
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/felixzapata/gulp-axe-core/compare/0.1.3...v0.2.0) (2016-08-27)
+
+
+### Features
+
+* **ESLint:** replace JSHint with ESLint ([a013569](https://github.com/felixzapata/gulp-axe-core/commit/a013569))
+* **index.js:** change default browser to Chrome ([c0d814d](https://github.com/felixzapata/gulp-axe-core/commit/c0d814d))
+* **PhantomJS:** add support for PhantomJS ([14986b1](https://github.com/felixzapata/gulp-axe-core/commit/14986b1))
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/felixzapata/gulp-axe-core/compare/0.1.2...v0.1.3) (2016-08-25)
 
