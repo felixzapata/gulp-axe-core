@@ -12,9 +12,8 @@ var PLUGIN_NAME = 'gulp-axe-core';
 require('chromedriver');
 
 //setup custom phantomJS capability
-const phantomjs_exe = require('phantomjs-prebuilt').path;
-var customPhantom = WebDriver.Capabilities.phantomjs();
-customPhantom.set("phantomjs.binary.path", phantomjs_exe);
+var phantomjs_exe = require('phantomjs-prebuilt').path;
+var customPhantom = WebDriver.Capabilities.phantomjs().set('phantomjs.binary.path', phantomjs_exe);
 
 var promise;
 var results = [];
