@@ -1,7 +1,7 @@
 .travis.yml
 .gitignore
-.jshintignore
-.jshintrc
+.eslintignore
+.eslintrc.json
 tasks
 test
 gulpfile.js
