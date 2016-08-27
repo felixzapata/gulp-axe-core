@@ -16,6 +16,8 @@ $ npm install --save-dev gulp-axe-core
 
 ### Usage
 
+#### With Chrome (default)
+
 ```js
 var gulp = require('gulp');
 var axeCore = require('gulp-axe-core');
@@ -30,6 +32,8 @@ gulp.task('axe', function() {
 
 ```
 
+### With PhantomJS
+
 ```js
 var gulp = require('gulp');
 var axeCore = require('gulp-axe-core');
@@ -37,7 +41,7 @@ var axeCore = require('gulp-axe-core');
 gulp.task('axe', function() {
   var options = {
 			saveOutputIn: 'allHtml.json',
-			browser: 'chrome'
+			browser: 'phantomjs'
 	};
 	return gulp.src('src/file2.html')
 		.pipe(axeCore(options));
@@ -50,7 +54,7 @@ Type: `Object`
 Default value:
 ```
 {
-  browser: 'firefox',
+  browser: 'phantomjs',
   threshold: 0,
 	folderOutputReport: 'aXeReports',
 	saveOutputIn: ''
@@ -66,9 +70,9 @@ A negative value will prevent failure whatever the number of violations.
 
 #### browser
 Type: `String`
-Default value: `firefox`
+Default value: `chrome`
 
-Which browser to run the tests in
+Which browser to run the tests in.
 
 ### saveOutputIn
 Type: `String`
@@ -81,6 +85,10 @@ Type: `String`
 Default value: 'aXeReports'
 
 An optional folder to indicate where the output will be saved.
+
+## Release History
+
+Read the [full changelog](CHANGELOG.md).
 
 ## License
 
