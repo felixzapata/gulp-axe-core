@@ -28,8 +28,7 @@ module.exports = function (customOptions) {
 	};
 
 	var options = customOptions ? Object.assign(defaultOptions, customOptions) : defaultOptions;
-	var driver = options.browser === 'phantomjs' ? new WebDriver.Builder().withCapabilities(customPhantom).build() :
-    new WebDriver.Builder().forBrowser(options.browser).build();
+	var driver = options.browser === 'phantomjs' ? new WebDriver.Builder().withCapabilities(customPhantom).build() : new WebDriver.Builder().forBrowser(options.browser).build();
 
 	var createResults = function(cb) {
 
