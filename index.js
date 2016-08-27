@@ -57,7 +57,7 @@ module.exports = function (customOptions) {
 
 		try {
 
-			promise = new Promise(function(resolve, reject) {
+			promise = new Promise(function(resolve) {
 					driver.get(fileUrl(file.path)).then(function() {
 						var startTimestamp = new Date().getTime();
 						new AxeBuilder(driver)
