@@ -32,7 +32,7 @@ gulp.task('axe', function() {
 
 ```
 
-### With PhantomJS
+#### With PhantomJS
 
 ```js
 var gulp = require('gulp');
