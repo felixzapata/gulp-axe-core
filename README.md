@@ -74,13 +74,13 @@ Default value: `chrome`
 
 Which browser to run the tests in.
 
-### saveOutputIn
+#### saveOutputIn
 Type: `String`
 Default value: ''
 
 An optional file to which the results of the accessibility scans will be written as a JSON Array of results objects.
 
-### folderOutputReport
+#### folderOutputReport
 Type: `String`
 Default value: 'aXeReports'
 
