@@ -6,6 +6,10 @@
 
 Inspired by [grunt-axe-webdriver](https://github.com/dequelabs/grunt-axe-webdriver).
 
+## Deprecation warning
+
+**This plugin has been deprecated in favor of [gulp-axe-webdriver](https://github.com/felixzapata/gulp-axe-webdriver)** 
+
 ## Install
 
 ```
