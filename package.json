@@ -30,14 +30,14 @@
   ],
   "dependencies": {
     "axe-core": "^2.0.5",
-    "axe-webdriverjs": "^0.3.0",
+    "axe-webdriverjs": "^0.4.0",
     "chromedriver": "^2.23.0",
     "file-url": "^1.1.0",
     "fs-extra": "^0.30.0",
     "fs-path": "0.0.22",
     "phantomjs-prebuilt": "^2.1.12",
     "promise": "^7.1.1",
-    "selenium-webdriver": "^2.53.3",
+    "selenium-webdriver": "^3.0.0",
     "through2": "^0.6.5"
   },
   "devDependencies": {

@@ -24,7 +24,8 @@ module.exports = function (customOptions) {
 		browser: 'chrome',
 		folderOutputReport: 'aXeReports',
 		saveOutputIn: '',
-		threshold: 0
+		threshold: 0,
+		a11yCheckOptions: {}
 	};
 
 	var options = customOptions ? Object.assign(defaultOptions, customOptions) : defaultOptions;
@@ -61,6 +62,7 @@ module.exports = function (customOptions) {
 					driver.get(fileUrl(file.path)).then(function() {
 						var startTimestamp = new Date().getTime();
 						new AxeBuilder(driver)
+							.options(options.a11yCheckOptions)
 							.analyze(function(result) {
 								result.url = file.path;
 								result.timestamp = new Date().getTime();
